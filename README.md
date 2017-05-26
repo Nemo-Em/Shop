@@ -1,4 +1,0 @@
-# Shop
-
-Hello Sklepie
-hihihi
