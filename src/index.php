@@ -1,8 +1,8 @@
 <?php
 
 include 'General.php';
-include 'Homepage\Homepage.php';
-include 'Product\Product.php';
+include 'Homepage/Homepage.php';
+include 'Product/Product.php';
 
 if(checkRout('products/add')) {
     $product = new Product();
