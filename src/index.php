@@ -3,6 +3,7 @@
 include 'General.php';
 include 'Homepage/Homepage.php';
 include 'Product/Product.php';
+include 'User/User.php';
 
 if(checkRout('products/add')) {
     $product = new Product();
@@ -10,7 +11,15 @@ if(checkRout('products/add')) {
 }elseif(checkRout('products/index')) {
     $product = new Product();
     $product->index();
-}else {
+}elseif(checkRout('users/register')) {
+    $user = new User();
+    $user->register();
+}
+elseif(checkRout('users/login')) {
+    $user = new User();
+    $user->login();
+}
+else {
     $homePage = new Homepage();
     $homePage->index();
 }

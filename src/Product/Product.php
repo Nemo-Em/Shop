@@ -12,10 +12,11 @@ class Product extends General
 
 
                 $name = $this->post['name'];
-                $amount = $this->post['amount'];
+                $amount = $this->post['description'];
                 $price = $this->post['price'];
+                $inStock = $this->post['in_stock'];
 
-                $sqlStatement = "INSERT INTO products(name, amount, price) values ('$name', '$amount', '$price')";
+                $sqlStatement = "INSERT INTO Products(name, description, price, in_stock) values ('$name', '$description', '$price', $inStock)";
 
                 $result = $this->getConnection()->query($sqlStatement);
 
