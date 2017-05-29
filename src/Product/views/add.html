@@ -1,12 +1,15 @@
-<form action="/products/add" method="post">
-    Nazwa:<br>
+<form action="Shop/src/index.php/products/add" method="post">
+    Name:<br>
     <input type="text" name="name">
     <br>
-    Liczba:<br>
-    <input type="text" name="amount">
+    Description:<br>
+    <input type="text" name="description">
     <br>
-    Cena:<br>
-    <input type="text" name="price">
+    Price:<br>
+    <input type="number" name="price">
     <br><br>
+    Amount:<br>
+    <input type="number" name="in_stock">
+    <br>
     <input type="submit" value="Dodaj">
-</form> 
+</form>

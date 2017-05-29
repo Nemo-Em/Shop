@@ -1,4 +1,5 @@
 <?php
+include ('../conn/conn.php');
 
 class General {
 
@@ -27,13 +28,6 @@ class General {
 
     public function getConnection()
     {
-        $configDB = array(
-            'servername' => "127.0.0.1:3306",
-            'username' => "root",
-            'password' => "nevermind20",
-            'baseName' => "shop"
-        );
-
         $conn = new mysqli($configDB['servername'], $configDB['username'], $configDB['password'], $configDB['baseName']);
 
         if ($conn->connect_error) {
