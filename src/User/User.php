@@ -10,39 +10,70 @@ class User extends General
   const VIEW_PATH = 'User/views/';
 
   public function register(){
-      if($this->is_post()){
-          if(true){
-              $name = $this->post['name'];
-              $surname = $this->post['surname'];
-              $price = $this->post['email'];
-              $password = $this->post['password'];
-
+      if($_SERVER['REQUEST_METHOD']=='POST'){
+          if(isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['passwordVerify'])){
+            if($_POST['password'] == $_POST['passwordVerify']){
+              $name = $_POST['name'];
+              $surname = $_POST['surname'];
+              $email = $_POST['email'];
+              $password = User::hashPassword($_POST['password']);
               $sqlStatement = "INSERT INTO Users(name, surname, email, password) values ('$name', '$surname', '$email', '$password')";
               $result = $this->getConnection()->query($sqlStatement);
-
               if ($result) {
                   $user = new User;
                   $user->setName($name)->setSurname($surname)->setEmail($email)->setPassword($password)->setId($this->getConnection()->insert_id);
-                  $user->login($email, $password);
-                  $this->redirect('/users/index');
+                  $this->render(User::VIEW_PATH . 'login.html');
               }
+              else{
+                die("registration failed!");
+              }
+            }
+            else{
+              die("passwords don't match!");
+            }
           }
-          return false;
+          else{
+            die("form filled out incorrectly!");
+          }
       }
-      $this->render(User::VIEW_PATH . 'register.html');
+      elseif ($_SERVER['REQUEST_METHOD'] == 'GET'){
+        $this->render(User::VIEW_PATH . 'register.html');
+      }
   }
 
-  public function login($email, $password){
-    $user = User::getByEmail($email);
-    if($user_verifyPassword($password)){
-      $_SESSION['loggedUser'] = $this->id;
+  public function login(){
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+      if(isset($_POST['password']) && isset($_POST['email'])){
+        $loadedUser = User::getByEmail($_POST['email']);
+        $inputPassword = $_POST['password'];
+        $userPassword = $loadedUser->getPassword();
+
+        if(password_verify ($inputPassword,$userPassword)){
+          $_SESSION['loggedUser'] = $loadedUser->getId();
+          $this->render(User::VIEW_PATH . 'main.html');
+        }
+        else{
+          die('incorrect password or email');
+        }
+      }
     }
-    else{
-      die('incorrect password or email');
+    elseif ($_SERVER['REQUEST_METHOD'] == 'GET'){
+      $this->render(User::VIEW_PATH . 'login.html');
     }
   }
   static public function logout(){
     unset ($_SESSION['loggedUser']);
+  }
+  public static function getByEmail($email){
+    $user = new User;
+    $sqlStatement = "SELECT * FROM Users WHERE email = '$email'";
+    $result = $user->getConnection()->query($sqlStatement);
+    if ($result) {
+        $userData = $result->fetch_assoc();
+        $user->setName($userData['name'])->setSurname($userData['surname'])->setEmail($userData['email'])
+        ->setPassword($userData['password'])->setId(intVal($userData['id']));
+        return $user;
+    }
   }
   public function getID(){
     return $this->id;
@@ -80,11 +111,16 @@ class User extends General
       return $this;
     }
   }
-  public function setHashedPassword($password){
-    $this->password = password_hash($password, PASSWORD_BCRYPT);
-    return $this;
+  public function getPassword(){
+    return $this->password;
   }
-  public function verifyPassword($password){
-    password_verify ($password , $this->password);
+  public function setPassword($password){
+    if (is_string($password)){
+      $this->password=$password;
+      return $this;
+    }
+  }
+  public static function hashPassword($password){
+    return password_hash($password, PASSWORD_BCRYPT);
   }
 }

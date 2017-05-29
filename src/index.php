@@ -14,7 +14,12 @@ if(checkRout('products/add')) {
 }elseif(checkRout('users/register')) {
     $user = new User();
     $user->register();
-}else {
+}
+elseif(checkRout('users/login')) {
+    $user = new User();
+    $user->login();
+}
+else {
     $homePage = new Homepage();
     $homePage->index();
 }

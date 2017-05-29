@@ -1,12 +1,15 @@
 <?php
-include ('../conn/conn.php');
+include ('../config/conn.php');
 
 class General {
-
+    static private $conn;
     static private $data;
     public $post;
     public $files;
 
+    public static function SetConnection($newConnection){
+       General::$conn = $newConnection;
+    }
     public function __construct()
     {
         $this->post = $_POST;
@@ -28,7 +31,7 @@ class General {
 
     public function getConnection()
     {
-        $conn = new mysqli($configDB['servername'], $configDB['username'], $configDB['password'], $configDB['baseName']);
+        $conn = General::$conn;
 
         if ($conn->connect_error) {
             die("Polaczenie nieudane. Blad: " . $conn->connect_error."<br>");
