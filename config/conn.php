@@ -13,9 +13,4 @@ if ($conn->connect_error) {
 }
 
 General::SetConnection($conn);
-/*
-Quiz::SetConnection($conn2);
-Question::SetConnection($conn2);
-Answer::SetConnection($conn2);
-*/
 ?>
