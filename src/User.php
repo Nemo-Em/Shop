@@ -11,7 +11,7 @@ class User extends General
 
   public function register(){
       if($_SERVER['REQUEST_METHOD']=='POST'){
-          if(!empty($_POST['name']) && !empty($_POST['surname']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['passwordVerify'])){
+          if(isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['passwordVerify'])){
             if($_POST['password'] == $_POST['passwordVerify']){
               $name = $_POST['name'];
               $surname = $_POST['surname'];
@@ -33,7 +33,7 @@ class User extends General
             }
           }
           else{
-            die("form incomplete!");
+            die("form filled out incorrectly!");
           }
       }
       elseif ($_SERVER['REQUEST_METHOD'] == 'GET'){
@@ -43,18 +43,14 @@ class User extends General
 
   public function login(){
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
-      if(!empty($_POST['password']) && !empty($_POST['email'])){
+      if(isset($_POST['password']) && isset($_POST['email'])){
         $loadedUser = User::getByEmail($_POST['email']);
-        if($loadedUser == null){
-          die ("no user with this email");
-        }
         $inputPassword = $_POST['password'];
         $userPassword = $loadedUser->getPassword();
 
         if(password_verify ($inputPassword,$userPassword)){
           $_SESSION['loggedUser'] = $loadedUser->getId();
-          $_SESSION['userType'] = 'USER';
-          $this->render(User::VIEW_PATH . 'index.html');
+          $this->render(User::VIEW_PATH . 'main.html');
         }
         else{
           die('incorrect password or email');
@@ -67,22 +63,19 @@ class User extends General
   }
   public function logout(){
     unset ($_SESSION['loggedUser']);
-    if (empty($_SESSION['loggedUser'])){
+  //  if(!isset($_SESSION['loggedUser'])){
       $this->redirect (Homepage::VIEW_PATH . 'homepage.html');
-    }
+  //  }
   }
   public static function getByEmail($email){
     $user = new User;
     $sqlStatement = "SELECT * FROM Users WHERE email = '$email'";
     $result = $user->getConnection()->query($sqlStatement);
-    if ($result->num_rows==1) {
+    if ($result) {
         $userData = $result->fetch_assoc();
         $user->setName($userData['name'])->setSurname($userData['surname'])->setEmail($userData['email'])
         ->setPassword($userData['password'])->setId(intVal($userData['id']));
         return $user;
-    }
-    else{
-      return null;
     }
   }
   public function getID(){
