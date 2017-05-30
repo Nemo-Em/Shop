@@ -17,7 +17,6 @@ class Admin extends General
               $password = Admin::hashPassword($_POST['password']);
               $sqlStatement = "INSERT INTO Admins(email, password) values ('$email', '$password')";
               $result = $this->getConnection()->query($sqlStatement);
-                      var_dump($this->getConnection()->error);
               if ($result) {
                   $admin = new Admin;
                   $admin->setEmail($email)->setPassword($password)->setId($this->getConnection()->insert_id);
