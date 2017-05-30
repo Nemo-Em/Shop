@@ -1,9 +1,10 @@
 <?php
-
+session_start();
 include 'General.php';
 include 'Homepage/Homepage.php';
 include 'Product/Product.php';
 include 'User/User.php';
+include 'Admin/Admin.php';
 
 if(checkRout('products/add')) {
     $product = new Product();
@@ -18,6 +19,22 @@ if(checkRout('products/add')) {
 elseif(checkRout('users/login')) {
     $user = new User();
     $user->login();
+}
+elseif(checkRout('users/logout')) {
+    $user = new User();
+    $user->logout();
+}
+elseif(checkRout('admins/register')) {
+    $admin = new Admin();
+    $admin->register();
+}
+elseif(checkRout('admins/login')) {
+    $admin = new Admin();
+    $admin->login();
+}
+elseif(checkRout('admins/logout')) {
+    $admin = new Admin();
+    $admin->logout();
 }
 else {
     $homePage = new Homepage();
