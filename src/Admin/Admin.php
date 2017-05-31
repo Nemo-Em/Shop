@@ -2,12 +2,14 @@
 
 class Admin extends General
 {
-  /*
-  public function index(){
-    $this->render
-  }
-  */
+
   const VIEW_PATH = 'Admin/views/';
+  private $email;
+  private $password;
+  
+  public function index(){
+     $this->render(Admin::VIEW_PATH . 'panel.html');
+  }
 
   public function register(){
       if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -51,7 +53,7 @@ class Admin extends General
 
         if(password_verify ($inputPassword,$adminPassword)){
           $_SESSION['loggedAdmin'] = $loadedAdmin->getId();
-          $this->render(Admin::VIEW_PATH . 'index.html');
+          $this->render(Admin::VIEW_PATH . 'panel.html');
         }
         else{
           die('incorrect password or email');
@@ -82,6 +84,21 @@ class Admin extends General
       return null;
     }
   }
+  
+  public function manageUsers(){
+      $result = $this->getConnection()->query('SELECT * FROM Users');
+      $data =[];
+      $i=0;
+        foreach ($result as $row) {
+            $data[$i]['name'] = $row['name'];
+            $data[$i]['surname'] = $row['surname'];
+            $data[$i]['email'] = $row['email'];
+            $data[$i]['address'] = $row['address'];
+            $i++;
+        }
+        $this->render(Admin::VIEW_PATH . 'manageUsers.php',  $data);
+  }
+  
   public function getID(){
     return $this->id;
   }

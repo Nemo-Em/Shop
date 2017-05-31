@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 include 'General.php';
 include 'Homepage/Homepage.php';
 include 'Product/Product.php';
@@ -24,6 +24,10 @@ elseif(checkRout('users/logout')) {
     $user = new User();
     $user->logout();
 }
+elseif(checkRout('users/panel')) {
+    $user = new User();
+    $user->index();
+}
 elseif(checkRout('admins/register')) {
     $admin = new Admin();
     $admin->register();
@@ -35,6 +39,14 @@ elseif(checkRout('admins/login')) {
 elseif(checkRout('admins/logout')) {
     $admin = new Admin();
     $admin->logout();
+}
+elseif(checkRout('admins/panel')) {
+    $admin = new Admin();
+    $admin->index();
+}
+elseif(checkRout('admins/manageUsers')) {
+    $admin = new Admin();
+    $admin->manageUsers();
 }
 else {
     $homePage = new Homepage();
