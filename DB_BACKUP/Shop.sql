@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 30, 2017 at 11:27 PM
+-- Generation Time: May 31, 2017 at 10:41 PM
 -- Server version: 5.7.18-0ubuntu0.16.04.1
 -- PHP Version: 7.0.15-0ubuntu0.16.04.4
 
@@ -32,6 +32,13 @@ CREATE TABLE `Admins` (
   `password` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `Admins`
+--
+
+INSERT INTO `Admins` (`id`, `email`, `password`) VALUES
+(1, 'nemo@mail', '$2y$10$yST9s8OakuUzOjJvNYaw..pczbZOVmFxUxgKrsSC9Tse1HBW3BTw.');
+
 -- --------------------------------------------------------
 
 --
@@ -41,7 +48,8 @@ CREATE TABLE `Admins` (
 CREATE TABLE `Orders` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL
+  `product_id` int(11) NOT NULL,
+  `status` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -69,8 +77,18 @@ CREATE TABLE `Users` (
   `name` varchar(50) NOT NULL,
   `surname` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `password` varchar(500) NOT NULL
+  `password` varchar(500) NOT NULL,
+  `address` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Users`
+--
+
+INSERT INTO `Users` (`id`, `name`, `surname`, `email`, `password`, `address`) VALUES
+(2, 'Nemo', 'Em', 'nemo@mail', '$2y$10$ruDS8CJUN9IShsetxfgIQehgvPTa4ZJW8cyBjbDaZi3QmlyCuRMWe', 'lala land 5'),
+(4, 'user1', 'surname', 'user@mail', '$2y$10$qhqyfuip9z3m3W4PkV/ShOVC0Wf9hkQVqXM1UpJDOUebXlXs5c1qq', 'ablabl'),
+(5, 'user2', 'surname', 'user2@mail', '$2y$10$G5vW4WJXz4mqnpT09ZMFPOg7z8FHY9rphrhpZpg7s92vHNBHiB1Km', 'ablabld');
 
 --
 -- Indexes for dumped tables
@@ -112,7 +130,7 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT for table `Admins`
 --
 ALTER TABLE `Admins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `Orders`
 --
@@ -127,7 +145,7 @@ ALTER TABLE `Products`
 -- AUTO_INCREMENT for table `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- Constraints for dumped tables
 --
