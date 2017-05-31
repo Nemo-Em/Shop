@@ -11,17 +11,19 @@ class User extends General
 
   public function register(){
       if($_SERVER['REQUEST_METHOD']=='POST'){
-          if(!empty($_POST['name']) && !empty($_POST['surname']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['passwordVerify'])){
+          if(!empty($_POST['name']) && !empty($_POST['surname']) && !empty($_POST['email']) &&!empty($_POST['address']) && !empty($_POST['password']) && !empty($_POST['passwordVerify'])){
             if($_POST['password'] == $_POST['passwordVerify']){
               $name = $_POST['name'];
               $surname = $_POST['surname'];
               $email = $_POST['email'];
+              $address = $_POST['address'];
               $password = User::hashPassword($_POST['password']);
-              $sqlStatement = "INSERT INTO Users(name, surname, email, password) values ('$name', '$surname', '$email', '$password')";
+              $sqlStatement = "INSERT INTO Users(name, surname, email, address, password) values ('$name', '$surname', '$email', '$address', '$password')";
               $result = $this->getConnection()->query($sqlStatement);
               if ($result) {
                   $user = new User;
-                  $user->setName($name)->setSurname($surname)->setEmail($email)->setPassword($password)->setId($this->getConnection()->insert_id);
+                  $user->setName($name)->setSurname($surname)->setEmail($email)
+                          ->setAddress($address)->setPassword($password)->setId($this->getConnection()->insert_id);
                   $this->render(User::VIEW_PATH . 'login.html');
               }
               else{
@@ -54,7 +56,7 @@ class User extends General
         if(password_verify ($inputPassword,$userPassword)){
           $_SESSION['loggedUser'] = $loadedUser->getId();
           $_SESSION['userType'] = 'USER';
-          $this->render(User::VIEW_PATH . 'index.html');
+          $this->render(User::VIEW_PATH . 'panel.html');
         }
         else{
           die('incorrect password or email');
@@ -118,6 +120,15 @@ class User extends General
   public function setEmail($email){
     if (is_string($email)){
       $this->email=$email;
+      return $this;
+    }
+  }
+    public function getAddress(){
+    return $this->address;
+  }
+  public function setAddress($address){
+    if (is_string($address)){
+      $this->address=$address;
       return $this;
     }
   }
