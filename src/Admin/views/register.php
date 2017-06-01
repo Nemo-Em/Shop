@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
 <body>
+<?php
+include('NavBar.html');
+?>
 <div class="container">
     <div class="row">
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>

@@ -1,5 +1,5 @@
 <?php
-//session_start();
+session_start();
 include 'General.php';
 include 'Homepage/Homepage.php';
 include 'Product/Product.php';
@@ -20,13 +20,13 @@ elseif(checkRout('users/login')) {
     $user = new User();
     $user->login();
 }
-elseif(checkRout('users/logout')) {
-    $user = new User();
-    $user->logout();
-}
 elseif(checkRout('users/panel')) {
     $user = new User();
     $user->index();
+}
+elseif(checkRout('users/orders')) {
+    $user = new User();
+    $user->viewOrders();
 }
 elseif(checkRout('admins/register')) {
     $admin = new Admin();
@@ -36,9 +36,13 @@ elseif(checkRout('admins/login')) {
     $admin = new Admin();
     $admin->login();
 }
-elseif(checkRout('admins/logout')) {
+elseif(checkRout('admins/updateStock')) {
     $admin = new Admin();
-    $admin->logout();
+    $admin->updateStock();
+}
+elseif(checkRout('admins/addProduct')) {
+    $admin = new Admin();
+    $admin->addProduct();
 }
 elseif(checkRout('admins/panel')) {
     $admin = new Admin();
@@ -47,6 +51,30 @@ elseif(checkRout('admins/panel')) {
 elseif(checkRout('admins/manageUsers')) {
     $admin = new Admin();
     $admin->manageUsers();
+}
+elseif(checkRout('admins/deleteUser')) {
+    $admin = new Admin();
+    $admin->deleteUser();
+}
+elseif(checkRout('admins/manageProducts')) {
+    $admin = new Admin();
+    $admin->manageProducts();
+}
+elseif(checkRout('admins/manageOrders')) {
+    $admin = new Admin();
+    $admin->manageOrders();
+}
+elseif(checkRout('admins/deleteProduct')) {
+    $admin = new Admin();
+    $admin->deleteProduct();
+}
+elseif(checkRout('admins/deleteOrder')) {
+    $admin = new Admin();
+    $admin->deleteOrder();
+}
+elseif(checkRout('logout')) {
+    $general = new General();
+    $general->logout();
 }
 else {
     $homePage = new Homepage();

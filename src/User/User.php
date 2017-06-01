@@ -2,12 +2,11 @@
 
 class User extends General
 {
-  /*
-  public function index(){
-    $this->render
-  }
-  */
   const VIEW_PATH = 'User/views/';
+  
+  public function index(){
+     $this->render(User::VIEW_PATH . 'panel.php');
+  }
 
   public function register(){
       if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -39,7 +38,7 @@ class User extends General
           }
       }
       elseif ($_SERVER['REQUEST_METHOD'] == 'GET'){
-        $this->render(User::VIEW_PATH . 'register.html');
+        $this->render(User::VIEW_PATH . 'register.php');
       }
   }
 
@@ -56,7 +55,7 @@ class User extends General
         if(password_verify ($inputPassword,$userPassword)){
           $_SESSION['loggedUser'] = $loadedUser->getId();
           $_SESSION['userType'] = 'USER';
-          $this->render(User::VIEW_PATH . 'panel.html');
+          $this->render(User::VIEW_PATH . 'panel.php');
         }
         else{
           die('incorrect password or email');
@@ -64,13 +63,7 @@ class User extends General
       }
     }
     elseif ($_SERVER['REQUEST_METHOD'] == 'GET'){
-      $this->render(User::VIEW_PATH . 'login.html');
-    }
-  }
-  public function logout(){
-    unset ($_SESSION['loggedUser']);
-    if (empty($_SESSION['loggedUser'])){
-      $this->redirect (Homepage::VIEW_PATH . 'homepage.html');
+      $this->render(User::VIEW_PATH . 'login.php');
     }
   }
   public static function getByEmail($email){
@@ -86,6 +79,25 @@ class User extends General
     else{
       return null;
     }
+  }
+  public function viewOrders(){
+    $id = intval($_SESSION['loggedUser']);
+    $result = $this->getConnection()->query("SELECT *,p.id as productId, o.id as orderId, p.name as productName, u.id as userId"             
+            . " FROM Users u"
+            . " JOIN Orders o ON o.user_id = u.id"
+            . " JOIN Products p ON o.product_id = p.id"
+            . " WHERE u.id = $id");
+    $data =[];
+    $i=0;
+        foreach ($result as $row) {
+            $data[$i]['orderId'] = $row['orderId'];
+            $data[$i]['productName'] = $row['productName'];
+            $data[$i]['price'] = $row['price'];
+            $data[$i]['status'] = $row['status'];
+            $data[$i]['descr'] = $row['description'];
+            $i++;
+        }
+    $this->render(User::VIEW_PATH . 'orders.php',  $data);
   }
   public function getID(){
     return $this->id;

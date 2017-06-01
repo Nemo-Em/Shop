@@ -1,3 +1,8 @@
+<?php
+if(!isset($_SESSION['loggedAdmin'])){
+    die("<a href='/Shop/src/index.php'>Login or Register to view page</a>");
+}
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -8,7 +13,10 @@
     <title>Admin Panel</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
-<body>
+<body> 
+<?php
+include('NavBar.html');
+?>
 <div class="container">
     <div class="row">
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
@@ -16,7 +24,7 @@
             <legend>Admin Panel</legend>
             <ul>
                 <li><a href="/Shop/src/index.php/admins/manageUsers">Manage Users</a></li>
-                <li><a href="/Shop/src/index.php/admins/manageItems">Manage Items</a></li>
+                <li><a href="/Shop/src/index.php/admins/manageProducts">Manage Products</a></li>
                 <li><a href="/Shop/src/index.php/admins/manageOrders">Manage Orders</a></li>
             </ul>
         </div>

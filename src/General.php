@@ -53,4 +53,12 @@ class General {
     public function redirect(string $destiny) {
         header('location:' . $destiny);
     }
+    
+    public function logout(){
+        unset ($_SESSION['loggedUser']);
+        unset ($_SESSION['loggedAdmin']);
+        if (empty($_SESSION['loggedUser']) && empty($_SESSION['loggedAdmin'])){
+            $this->render(Homepage::VIEW_PATH . 'home.php');
+        }
+    }
 }
