@@ -1,8 +1,3 @@
-<?php
-if(!isset($_SESSION['loggedAdmin'])){
-    die("<a href='/Shop/src/index.php'>Login or Register to view page</a>");
-}
-?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -13,7 +8,7 @@ if(!isset($_SESSION['loggedAdmin'])){
     <title>Admin Panel</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
-<body>
+<body> 
 <?php
 include('NavBar.html');
 ?>
@@ -21,17 +16,7 @@ include('NavBar.html');
     <div class="row">
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            <legend>Manage Users</legend>
-            <ul>
-                <?php
-                $data = General::getData();
-                foreach($data as $user){
-                    echo "<li>".$user['name'] ." ". $user['surname']
-                        . ", " . $user['email'] ." ". $user['address']
-                        . " <a href='/Shop/src/index.php/admins/deleteUser?id=".$user['id']."'>Delete</a></li>";
-                }
-                ?>
-            </ul>
+            <h1>SHOP HOMEPAGE :)</h1>
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
     </div>
